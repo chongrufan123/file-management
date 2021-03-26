@@ -9,15 +9,19 @@ class Filen():
     def __init__(self):
         self.filename = '文件'
 
+        ## 文件路径选择界面,并且把选择到的路径赋给变量,在原界面显示
     def callback(self):
         fileame = filedialog.askopenfilename()
         self.filename = fileame
         self.v.set(self.filename)
 
+        ## 年份文本栏中只能写数字
     def test1(self, content):
         return content.isdigit()
 
+        ## 将添加的数据写入到文件中
     def yes(self):
+        ## 如果文件不存在新建一个文件并且创建表头
         if(not os.path.isfile("../doc/shuju.xlsx")):
            book = xlwt.Workbook()
            sheet = book.add_sheet("汇总文件表")
@@ -29,6 +33,8 @@ class Filen():
            sheet.write(0,5,"备注")
            sheet.write(0,6,"整理人")
            book.save("../doc/shuju.xlsx")
+
+           ## 将文件打开并且数据写入文件中
         word_book = xlrd.open_workbook("../doc/shuju.xlsx")
         sheets = word_book.sheet_names()
         work_sheet = word_book.sheet_by_name(sheets[0])
@@ -42,6 +48,7 @@ class Filen():
         new_work_book.save('../doc/shuju.xlsx')
         self.top1.withdraw()
 
+        ## 确认添加的数据文件的界面
     def determine(self):
         self.top1 = Toplevel()
         self.top1.title("请确认")
@@ -87,9 +94,7 @@ class Filen():
         top2.pack()
 
         
-    def return_list(self):
-        pass
-        
+        ## 添加一个文件的界面
     def add_to(self, wirter):
         self.writer = wirter
         master = Toplevel()
@@ -117,6 +122,7 @@ class Filen():
                      validatecommand = (testCMD, '%P'))
         year.grid(row=3, column =1, padx=5, pady=10,sticky = E)
 
+        ## 实践主题在文件中
         w3 = Label(frame1, text = "实践主题", font = "30")
         w3.grid(row=4, column = 0, padx=5, pady=10, sticky=W)
         self.theme = Listbox(frame1, height = 5)
@@ -124,7 +130,6 @@ class Filen():
         with open("../doc/theme.txt") as f:
             for each in f:
                 self.theme.insert(END, each.strip())
-
 
         options = []
         self.vvar = StringVar()
